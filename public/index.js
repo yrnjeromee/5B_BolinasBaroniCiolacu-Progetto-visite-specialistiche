@@ -5,10 +5,10 @@ let starDay = 0;
 const navbar = document.getElementById("navbar");
 const formElement = document.getElementById("form");
 
-import {tableComponent} from '../componenti/table.js';
-import {NavBarComponent} from '../componenti/navbar.js';
-import {createForm} from '../componenti/form.js';
-import {generateFetchComponent} from '../componenti/fetch_component.js';
+import { tableComponent } from './componenti/table.js';
+import { NavBarComponent } from './componenti/navbar.js';
+import { createForm } from './componenti/form.js';
+import { generateFetchComponent } from './componenti/fetch_component.js';
 
 
 fetch("conf.json").then(r => r.json()).then(conf => {

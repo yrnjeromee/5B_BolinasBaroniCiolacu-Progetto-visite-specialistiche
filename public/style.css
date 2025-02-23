@@ -90,7 +90,7 @@ h1 {
 
 footer {
     background-color: #0056b3;
-    color: white;
+    color: black !important;
     text-align: center;
     padding: 15px 0;
     font-size: 14px;
