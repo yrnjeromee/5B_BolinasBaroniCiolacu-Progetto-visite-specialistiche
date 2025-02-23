@@ -22,13 +22,14 @@ const executeQuery = (sql) => {
 }
 
 const database = {
-   createTable: () => {
-      return executeQuery(`
+   createTable: async() => {
+      await executeQuery(`
          CREATE TABLE IF NOT EXISTS type (
          id INT PRIMARY KEY AUTO_INCREMENT,
          name varchar(20)
          )
-
+      `);
+      return await executeQuery(`
          CREATE TABLE IF NOT EXISTS booking (
          id int PRIMARY KEY AUTO_INCREMENT,
          idType int NOT NULL,
@@ -36,7 +37,7 @@ const database = {
          hour INT NOT NULL,
          name VARCHAR(50),
          FOREIGN KEY (idType) REFERENCES type(id) )
-      `)
+      `);
     },
    insert: (name) => {
       let sql = "INSERT INTO booking (name) VALUES ('$NAME')";
@@ -69,9 +70,6 @@ const database = {
    cancellaTutto: async () => {
       return executeQuery("TRUNCATE TABLE booking");
    }
-
-
 }
 
 module.exports = database;
-
