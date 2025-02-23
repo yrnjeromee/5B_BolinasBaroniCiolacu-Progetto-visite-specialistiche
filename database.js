@@ -24,29 +24,39 @@ const executeQuery = (sql) => {
 const database = {
    createTable: () => {
       return executeQuery(`
-      CREATE TABLE IF NOT EXISTS images
-         ( id INT PRIMARY KEY AUTO_INCREMENT,
-            name VARCHAR(255) NOT NULL)
+         CREATE TABLE IF NOT EXISTS type (
+         id INT PRIMARY KEY AUTO_INCREMENT,
+         name varchar(20)
+         )
+
+         CREATE TABLE IF NOT EXISTS booking (
+         id int PRIMARY KEY AUTO_INCREMENT,
+         idType int NOT NULL,
+         date DATE NOT NULL,
+         hour INT NOT NULL,
+         name VARCHAR(50),
+         FOREIGN KEY (idType) REFERENCES type(id) )
       `)
     },
    insert: (name) => {
-      let sql = "INSERT INTO images (name) VALUES ('$NAME')";
+      let sql = "INSERT INTO booking (name) VALUES ('$NAME')";
       sql = sql.replace('$NAME', name);
       return executeQuery(sql)
     },
    select: () => {
-      const sql = `SELECT id, name FROM images`;
+      const sql = `SELECT id, name, idType, date, hour FROM booking`;
       return executeQuery(sql);
     },
    delete: (id) => {
       let sql = `
-      DELETE FROM images
+      DELETE FROM booking
       WHERE id = $ID
       `;
       sql = sql.replace('$ID', id)
       return executeQuery(sql);
     }, 
    update: (todo) => {
+      //MODIFICARE DOPO
       let sql = `
       UPDATE todo
       SET completed=$COMPLETED
@@ -57,7 +67,7 @@ const database = {
       return executeQuery(sql); 
    },
    cancellaTutto: async () => {
-      return executeQuery("TRUNCATE TABLE images");
+      return executeQuery("TRUNCATE TABLE booking");
    }
 
 
