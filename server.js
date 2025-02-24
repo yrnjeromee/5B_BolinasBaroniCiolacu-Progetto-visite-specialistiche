@@ -5,33 +5,26 @@ const app = express();
 const multer  = require('multer');
 const database = require('./database.js');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, path.join(__dirname, "files"));
-    },
-    filename: function (req, file, callback){
-        callback(null, file.originalname);
-    }
-});
 
-database.createTable();
-const upload = multer({storage: storage}).single('file');
+database.createTableType();
+database.createTableBooking();
 
 app.use("/", express.static(path.join(__dirname, "public")));
 
 app.use("/files", express.static(path.join(__dirname, "files")));
 
-app.post("/upload", multer({storage: storage}).single('file'), async (req, res) => {
-    await database.insert("./files/" + req.file.originalname);
+app.post("/upload", async (req, res) => {
+    //WEB SERVICE CHE PERMETTE DI AGGIUNGERE LE PRENOTAZIONI
+    await database.insert(req);
     res.json({result: "ok"});
     console.log("AGGIUNTO -> ", req.file.originalname)
 });
 
 app.get('/get', async (req, res) => {
-    //WEB SERVICE CHE RESTITUISCE L'ELENCO DI TUTTE LE IMMAGINI
-    const images = await database.select();
-    res.json(images);
-    console.log("URL IMMAGINI -> ", images);
+    //WEB SERVICE CHE RESTITUISCE L'ELENCO DI TUTTE LE PRENOTAZIONI
+    const books = await database.select();
+    res.json(books);
+    console.log("URL IMMAGINI -> ", books);
 })
 
 

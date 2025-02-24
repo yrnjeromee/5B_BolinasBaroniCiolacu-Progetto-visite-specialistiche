@@ -22,13 +22,15 @@ const executeQuery = (sql) => {
 }
 
 const database = {
-   createTable: async() => {
-      await executeQuery(`
+   createTableType: async() => {
+      return await executeQuery(`
          CREATE TABLE IF NOT EXISTS type (
          id INT PRIMARY KEY AUTO_INCREMENT,
          name varchar(20)
          )
       `);
+    },
+    createTableBooking: async() => {
       return await executeQuery(`
          CREATE TABLE IF NOT EXISTS booking (
          id int PRIMARY KEY AUTO_INCREMENT,
@@ -40,6 +42,7 @@ const database = {
       `);
     },
    insert: (name) => {
+      
       let sql = "INSERT INTO booking (name) VALUES ('$NAME')";
       sql = sql.replace('$NAME', name);
       return executeQuery(sql)
