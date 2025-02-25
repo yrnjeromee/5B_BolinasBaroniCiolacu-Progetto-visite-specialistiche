@@ -17,9 +17,9 @@ export const NavBarComponent = (parentElementIn) => {
                 let radioId = "radio" + index;
                 if ( index === 0) {
                     //PER IL CHECKED [SE è IL PRIMO ALLORA SARà CHECKED]
-                    html += template.replace(/#ID/g, radioId).replace("#CAT", tip).replace("#TIPO", tip) .replace("#CHECKED", "checked");
+                    html += template.replace(/#ID/g, radioId).replace("#CAT", tip.name).replace("#TIPO", tip.name) .replace("#CHECKED", "checked");
                 } else {
-                    html += template.replace(/#ID/g,radioId) .replace("#CAT", tip).replace("#TIPO", tip).replace("#CHECKED", "");
+                    html += template.replace(/#ID/g,radioId) .replace("#CAT", tip.name).replace("#TIPO", tip.name).replace("#CHECKED", "");
                 }
             });
             parentElement.innerHTML = html;

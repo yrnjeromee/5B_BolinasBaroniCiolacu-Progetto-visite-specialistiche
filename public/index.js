@@ -57,7 +57,7 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     const pubsub = generatePubSub();
     const middleware = createMiddleware();
     const form = createForm(formElement);
-    const tableComp = tableComponent();
+    const tableComp = tableComponent(tabella);
     const navBarComp = NavBarComponent(navbar);
     
     
@@ -66,8 +66,10 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     middleware.loadTips().then((r) => {
         //CARICAMENTO TIPOLOGIE
         form.setType(r); 
-        table.setTipi(r);
-        navBarComp.setTipi(r);
+        tableComp.setTipi(r);
+        navBarComp.setTypes(r);
+        console.log("RRR->  ",r);
+        navBarComp.render();
         console.log("TIPOLOGIE CARICATE");
     });
 
