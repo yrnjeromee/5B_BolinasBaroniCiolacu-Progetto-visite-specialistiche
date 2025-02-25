@@ -1,8 +1,10 @@
-export const createForm = (parentElement, pubsub) => {
+export const createForm = (parentElement, pubsub, middleware) => {
     let dati = [];
     let callback = null;
     let tipo="Cardiologia";
     let parentElement = parentElement;
+
+    
     return {
         setLabels: (labels) => {dato = labels;}, 
         onsubmit: (callbackInput) => { callback = callbackInput; },
@@ -10,7 +12,7 @@ export const createForm = (parentElement, pubsub) => {
         exportDati: () => {
             return dati; 
         },
-        render: (data) => {
+        render: () => {
             //creazione input
             parentElement.innerHTML = 
                 `<div>Data<br/><input id="tipo" type="text" class="form-label form-control"/></div>` +
@@ -30,7 +32,7 @@ export const createForm = (parentElement, pubsub) => {
                     outputform.innerHTML = "KO";
                 } else {
                     // AGGIUNTA DELLA DATA NEL DIZIONARIO
-                    pubsub.subscribe
+                    
                 }
                 document.querySelector("#data").value="";
                 document.querySelector("#ora").value="";

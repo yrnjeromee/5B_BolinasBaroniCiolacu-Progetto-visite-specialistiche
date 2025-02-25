@@ -5,6 +5,9 @@ let starDay = 0;
 const navbar = document.getElementById("navbar");
 const formElement = document.getElementById("form");
 
+
+import {generatePubSub} from './componenti/pubsub.js';
+import {createNavigator} from './componenti/navigator.js';
 import { tableComponent } from './componenti/table.js';
 import { NavBarComponent } from './componenti/navbar.js';
 import { createForm } from './componenti/form.js';
@@ -46,6 +49,8 @@ const createMiddleware = () => {
 
 
 fetch("./conf.json").then(r => r.json()).then(conf => {
+    const pubsub = generatePubSub();
+    const middleware = createMiddleware();
     const form = createForm(formElement);
     const table1 = tableComponent();
     const navBarComp = NavBarComponent(conf);
@@ -71,4 +76,12 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     navBarComp.setParentElement(navbar);
     navBarComp.render(form,table1);
     form.render(table1,compFetch)
+
+
+    pubsub.subscribe("render-table", (table, data) => {
+        middleware.upload(data);
+        table.render(data);                        
+        console.log("TABLE RENDERIZZATA E DATI SALVATI");
+
+    })
 });
