@@ -45,7 +45,7 @@ const createMiddleware = () => {
 
 
 
-fetch("conf.json").then(r => r.json()).then(conf => {
+fetch("./conf.json").then(r => r.json()).then(conf => {
     const form = createForm(formElement);
     const table1 = tableComponent();
     const navBarComp = NavBarComponent(conf);
