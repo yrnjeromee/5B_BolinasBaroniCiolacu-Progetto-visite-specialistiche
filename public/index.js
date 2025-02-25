@@ -11,12 +11,17 @@ import {createNavigator} from './componenti/navigator.js';
 import { tableComponent } from './componenti/table.js';
 import { NavBarComponent } from './componenti/navbar.js';
 import { createForm } from './componenti/form.js';
-import { generateFetchComponent } from './componenti/fetch_component.js';
+
 
 const createMiddleware = () => {
     return {
         load: async () => {
             const response = await fetch("/get");
+            const json = await response.json();
+            return json;
+        },
+        loadTips: async () => {
+            const response = await fetch("/gettips");
             const json = await response.json();
             return json;
         },
@@ -52,30 +57,35 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     const pubsub = generatePubSub();
     const middleware = createMiddleware();
     const form = createForm(formElement);
-    const table1 = tableComponent();
-    const navBarComp = NavBarComponent(conf);
-    const compFetch = generateFetchComponent()
-    compFetch.caricaDati(conf)
-    compFetch.getData().then(data => {
-        form.setLabels(data);
-        table1.setData(data); // Imposta i dati nel componente tabella
-        table1.setParentElement(tabella);
-        table1.render(starDay);// Renderizza la tabella con i dati recuperati
+    const tableComp = tableComponent();
+    const navBarComp = NavBarComponent(navbar);
+    
+    
+
+    middleware.load().then((r) => {tableComp.setData(r); tableComp.render()});
+    middleware.loadTips().then((r) => {
+        //CARICAMENTO TIPOLOGIE
+        form.setType(r); 
+        table.setTipi(r);
+        navBarComp.setTipi(r);
+        console.log("TIPOLOGIE CARICATE");
     });
+
+
     precendente.onclick = () => {
         starDay -= 7;
-        table1.start(starDay)
-        table1.render();
+        tableComp.start(starDay)
+        tableComp.render();
     }
 
     successiva.onclick = () => {
         starDay += 7;
-        table1.start(starDay)
-        table1.render();
+        tableComp.start(starDay)
+        tableComp.render();
     }
-    navBarComp.setParentElement(navbar);
-    navBarComp.render(form,table1);
-    form.render(table1,compFetch)
+    
+    navBarComp.render();
+    form.render(tableComp)
 
 
     pubsub.subscribe("render-table", (table, data) => {
@@ -84,4 +94,11 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         console.log("TABLE RENDERIZZATA E DATI SALVATI");
 
     })
+
+    const handleSubmit = async (event) => {
+    await middleware.upload(inputFile);
+    const list = await middleware.load();
+    pubsub.publish("renderList",list);
+    }
+
 });

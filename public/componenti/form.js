@@ -1,14 +1,15 @@
-export const createForm = (parentElement, pubsub, middleware) => {
+export const createForm = (parentElementIn) => {
     let dati = [];
+    let types = [];
     let callback = null;
     let tipo="Cardiologia";
-    let parentElement = parentElement;
+    let parentElement = parentElementIn;
 
     
     return {
         setLabels: (labels) => {dato = labels;}, 
         onsubmit: (callbackInput) => { callback = callbackInput; },
-        setType: (tip)=>{tipo=tip;console.log(tipo)},
+        setType: (tip)=>{types=tip; console.log(types)},
         exportDati: () => {
             return dati; 
         },

@@ -1,5 +1,8 @@
-export const tableComponent = () => {
-    let data={}
+export const tableComponent = (parentElementIn) => {
+    let data = [];
+    let tipi = [];
+    let parentElement = parentElementIn;
+
     let tipo="Cardiologia";
     let PrecedenteSuccessiva=0
     let templateGiorni = `
@@ -12,15 +15,13 @@ export const tableComponent = () => {
             <td>#D</td>
         </tr>
     `;
-    let parentElement;
-
+    
     return {
         setData: (dato) =>{data=dato},
-        setParentElement: (pr) => {
-            parentElement = pr;
-        },
+        setTipi: (tip) => {tipi=tip},
+
         start:(startday)=> {PrecedenteSuccessiva=startday},
-        setTipo: (tip)=>{tipo=tip;},
+        
         render: () => {
             const exportData = (date) => {
                 // FUNZIONE CHE FORMATTA LA DATA

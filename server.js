@@ -2,7 +2,7 @@ const express = require("express");
 const http = require('http');
 const path = require('path');
 const app = express();
-const multer  = require('multer');
+//const multer  = require('multer');
 const database = require('./database.js');
 
 
@@ -24,7 +24,14 @@ app.get('/get', async (req, res) => {
     //WEB SERVICE CHE RESTITUISCE L'ELENCO DI TUTTE LE PRENOTAZIONI
     const books = await database.select();
     res.json(books);
-    console.log("URL IMMAGINI -> ", books);
+    console.log("PRENOTAZIONI -> ", books);
+})
+
+app.get('/gettips', async (req, res) => {
+    //WEB SERVICE CHE RESTITUISCE L'ELENCO DI TUTTE LE TIPOLOGIE DI VISITE
+    const tips = await database.selectTips();
+    res.json(tips);
+    console.log("TIPOLOGIE -> ", tips);
 })
 
 

@@ -52,6 +52,10 @@ const database = {
       const sql = `SELECT id, name, idType, date, hour FROM booking`;
       return executeQuery(sql);
     },
+   selectTips: () => {
+      const sql = `SELECT id, name FROM type`;
+      return executeQuery(sql);
+    },
    delete: (id) => {
       let sql = `
       DELETE FROM booking

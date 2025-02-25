@@ -1,17 +1,18 @@
-export const NavBarComponent = (conf) => {
+export const NavBarComponent = (parentElementIn) => {
+    let parentElement = parentElementIn;
+    let types = [];
+ 
     let template = `
     <input type="radio" class="btn-check" name="btnradio" value="#TIPO" id="#ID" #CHECKED>
     <label class="btn btn-outline-info btn-lg" for="#ID">#CAT</label>`
-    let parentElement;
+
     return{
-        setParentElement: (pr) => {
-            // FUNZIONA CHE DETERMINA DOVE POSIZIONARE LA RENDER
-            parentElement = pr;
-        }
-        ,render: (form,table1) => {
+        setTypes: (tipologie) => {types = tipologie},
+
+        render: (form,table1) => {
             // FUNZIONE CHE INIETTA DENTRO IL CONTAINER IL CSS
             let html = "";
-            conf["tipologie"].forEach((tip,index) => {
+            types.forEach((tip,index) => {
                 // GENERA CODICE
                 let radioId = "radio" + index;
                 if ( index === 0) {
