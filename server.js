@@ -17,7 +17,7 @@ app.post("/upload", async (req, res) => {
     //WEB SERVICE CHE PERMETTE DI AGGIUNGERE LE PRENOTAZIONI
     await database.insert(req);
     res.json({result: "ok"});
-    console.log("AGGIUNTO -> ", req.file.originalname)
+    console.log("AGGIUNTO -> ", req.name)
 });
 
 app.get('/get', async (req, res) => {

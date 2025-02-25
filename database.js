@@ -41,10 +41,11 @@ const database = {
          FOREIGN KEY (idType) REFERENCES type(id) )
       `);
     },
-   insert: (name) => {
-      
-      let sql = "INSERT INTO booking (name) VALUES ('$NAME')";
-      sql = sql.replace('$NAME', name);
+   insert: (book) => {
+      let sql = `
+         INSERT INTO booking(idType, date, hour, name)
+         VALUES ('${book.idType}', '${book.date}', '${book.hour}', '${book.name}')
+           `;
       return executeQuery(sql)
     },
    select: () => {
