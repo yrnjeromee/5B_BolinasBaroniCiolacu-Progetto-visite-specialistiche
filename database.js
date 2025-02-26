@@ -41,22 +41,28 @@ const database = {
          FOREIGN KEY (idType) REFERENCES type(id) )
       `);
     },
+
    insert: (book) => {
+      //INSERIMENTO ELEMENTO NELLA TABELLA
       let sql = `
          INSERT INTO booking(idType, date, hour, name)
          VALUES ('${book.idType}', '${book.date}', '${book.hour}', '${book.name}')
            `;
       return executeQuery(sql)
     },
+
    select: () => {
       const sql = `SELECT id, name, idType, date, hour FROM booking`;
       return executeQuery(sql);
     },
+
    selectTips: () => {
       const sql = `SELECT id, name FROM type`;
       return executeQuery(sql);
     },
+
    delete: (id) => {
+      //ELIMINAZIONE ELEMENTO DALLA TABELLA
       let sql = `
       DELETE FROM booking
       WHERE id = $ID
@@ -64,6 +70,7 @@ const database = {
       sql = sql.replace('$ID', id)
       return executeQuery(sql);
     }, 
+
    update: (todo) => {
       //MODIFICARE DOPO
       let sql = `
@@ -75,6 +82,7 @@ const database = {
       sql = sql.replace("%COMPLETED", todo.completed);
       return executeQuery(sql); 
    },
+
    cancellaTutto: async () => {
       return executeQuery("TRUNCATE TABLE booking");
    }
