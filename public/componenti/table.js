@@ -1,9 +1,10 @@
-export const tableComponent = (parentElementIn) => {
+export const tableComponent = (parentElementIn, pubsub) => {
     let data = [];
     let tipi = [];
     let parentElement = parentElementIn;
+    let tipologiaCur = 0;
 
-    let tipo="Cardiologia";
+
     let PrecedenteSuccessiva=0
     let templateGiorni = `
         <tr class="tbl1">
@@ -17,7 +18,10 @@ export const tableComponent = (parentElementIn) => {
     `;
     
     return {
+        setTipologiaCur: (tipologia) => {tipologiaCur = tipologia;},
+
         setData: (dato) =>{data=dato},
+        
         setTipi: (tip) => {tipi=tip},
 
         start:(startday)=> {PrecedenteSuccessiva=startday},
@@ -35,48 +39,41 @@ export const tableComponent = (parentElementIn) => {
             const ore = ["8", "9", "10", "11", "12"];
             let html = templateGiorni;
             let date = new Date();
-            let giornoCorrente = date.getDay() - PrecedenteSuccessiva; // serve per i bottoni precendente e succssivo
+            let giornoCorrente = date.getDay() - PrecedenteSuccessiva;
 
-            // SE E' DOMENICA [0] OPPURE SABATO [6] passa al lunedì dopo
             if (giornoCorrente === 6) {
-                date.setDate(date.getDate() + 2); 
+                date.setDate(date.getDate() + 2);
             } else if (giornoCorrente === 0) {
-                date.setDate(date.getDate() + 1); 
+                date.setDate(date.getDate() + 1);
             } else {
-                date.setDate(date.getDate() - (giornoCorrente - 1)); //PER TORNARE SEMPRE A LUNEDì 
+                date.setDate(date.getDate() - (giornoCorrente - 1));
             }
 
-            
             lisSett.forEach((day, index) => {
-                //CAMBIO HTML
-                let giornoTab = day + "<br>" + exportData(date);
+                let giornoTab = `${day}<br>${exportData(date)}`;
                 html = html.replace("#D", giornoTab);
-
-                date.setDate(date.getDate() + 1);  //GIORNO DOPO
-
-                //AGGIUNGI CHIAVE
+                date.setDate(date.getDate() + 1);
             });
-            date.setDate(date.getDate() + -5); 
+
+            date.setDate(date.getDate() - 5);
             ore.forEach(ora => {
-                html += `<tr class ="tbl1">`+"<td>"+ ora +"</td>";
+                html += `<tr class="tbl1"><td>${ora}</td>`;
                 for (let i = 0; i < lisSett.length; i++) {
-                    let giorno=exportData(date).split("-").join("");
-                    let chiave= tipo +"-"+giorno+"-"+ora;
-                    if (chiave in data) {
-                        // se fa parte del dizionario stampa
-                        console.log(chiave)
-                        html += `<td class="table-info">` + data[chiave]+ "</td>"; // Inserisci il nome della prenotazione
+                    let giorno = exportData(date).split("-").join("");
+                    let chiave = `${tipologiaCur + 1}-${giorno}-${ora}`;
+                    let found = data.find(entry => entry.tipologia == (tipologiaCur + 1) && entry.data === giorno && entry.ora === ora);
+                    
+                    if (found) {
+                        html += `<td class="table-info">${found.nome}</td>`;
                     } else {
-                        // cella vuota
-                        console.log(data)
-                        html += `<td></td>`; // Celle vuote o con contenuto da aggiungere
+                        html += `<td></td>`;
                     }
                     date.setDate(date.getDate() + 1);
                 }
-                date.setDate(date.getDate() + -5); 
+                date.setDate(date.getDate() - 5);
                 html += `</tr>`;
             });
-            
+
             parentElement.innerHTML = html;
         }
     }

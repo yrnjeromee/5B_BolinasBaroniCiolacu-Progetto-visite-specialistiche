@@ -33,13 +33,11 @@ const createMiddleware = () => {
             return json
         },
         upload: async (inputFile) => {
-            const formData = new FormData();
-            formData.append("file", inputFile.files[0]);
-            const body = formData;
             const fetchOptions = {
                 method: "post",
-                body: body
+                body: inputFile
         };
+            console.log("INPUT FILE -> ", inputFile);
         try {
             const res = await fetch("/upload", fetchOptions);
             const data = await res.json();
@@ -56,8 +54,8 @@ const createMiddleware = () => {
 fetch("./conf.json").then(r => r.json()).then(conf => {
     const pubsub = generatePubSub();
     const middleware = createMiddleware();
-    const form = createForm(formElement);
-    const tableComp = tableComponent(tabella);
+    const form = createForm(formElement, pubsub);
+    const tableComp = tableComponent(tabella, pubsub);
     const navBarComp = NavBarComponent(navbar);
     
     
@@ -95,6 +93,12 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
         table.render(data);                        
         console.log("TABLE RENDERIZZATA E DATI SALVATI");
 
+    })
+
+    pubsub.subscribe("push-dato", async (data) => {
+        await middleware.upload(data);
+        middleware.load().then((r) => {tableComp.setData(r); tableComp.render()});
+        console.log("DATI INSERITI");
     })
 
     const handleSubmit = async (event) => {
