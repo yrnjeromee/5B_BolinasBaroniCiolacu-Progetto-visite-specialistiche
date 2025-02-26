@@ -36,11 +36,14 @@ app.get('/gettips', async (req, res) => {
 
 
 app.delete('/delete/:id', async (req, res) => {
+    //WEB SERVICE CHE ELIMINA L'ELEMENTO DAL DATABASE
     await database.delete(req.params.id);
     res.json({result: "ok"});
     
 })
+
 const server = http.createServer(app);
+//CREAZIONE SERVER HTTP
 server.listen(5500, () => {
   console.log("- server running");
 });
