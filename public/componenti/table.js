@@ -66,9 +66,9 @@ export const tableComponent = (parentElementIn, pubsub) => {
                 html += `<tr class="tbl1"><td>${ora}</td>`;
 
                 let dataTemporanea = new Date(date);
-
+                
                 for (let i = 0; i < lisSett.length; i++) {
-                    let giornoScorrimento = exportData(dataTemporanea);
+                    let giornoScorrimento = exportData(date);
                     
                     const datiFiler = data.find((el) => {
                         let dd = el.date.slice(0, 10);
@@ -90,7 +90,7 @@ export const tableComponent = (parentElementIn, pubsub) => {
                         html += `<td></td>`;
                     }
 
-                    dataTemporanea.setDate(dataTemporanea.getDate() + 1);
+                    date.setDate(date.getDate() + 1);
 
                 }
                 date.setDate(date.getDate() - 5);

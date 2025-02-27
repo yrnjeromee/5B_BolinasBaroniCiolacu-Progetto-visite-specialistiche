@@ -29,6 +29,8 @@ export const createForm = (parentElementIn, pubsub, middleware) => {
                 const nome = document.querySelector("#nome").value;
                 const outputform = document.getElementById("outputform");
 
+                console.log("DATA INSERITA NEL FORM-> ", data);
+                
                 if (data === "" || ora === "" || nome === "") {
                     outputform.innerHTML = "KO";
                 } else {
@@ -42,6 +44,8 @@ export const createForm = (parentElementIn, pubsub, middleware) => {
                     
                     //await middleware.upload(dizTemp); 
                     pubsub.publish("push-dato", dizTemp);
+                    outputform.innerHTML = "Prenotazione effettuata";
+
                         
                 }
                 document.querySelector("#data").value="";
