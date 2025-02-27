@@ -1,4 +1,4 @@
-export const createForm = (parentElementIn, pubsubm, middleware) => {
+export const createForm = (parentElementIn, pubsub, middleware) => {
     let dati = [];
     let types = [];
     let callback = null;
@@ -40,9 +40,9 @@ export const createForm = (parentElementIn, pubsubm, middleware) => {
                         "idType": (tipologiaCur + 1)                     
                     }
                     
-                    await middleware.upload(dizTemp); 
+                    //await middleware.upload(dizTemp); 
+                    pubsub.publish("push-dato", dizTemp);
                         
-                    //pubsub.publish("push-dato", dizTemp);
                 }
                 document.querySelector("#data").value="";
                 document.querySelector("#ora").value="";

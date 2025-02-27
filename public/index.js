@@ -103,13 +103,15 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     pubsub.subscribe("push-dato", async (data) => {
         console.log("DATI DA INSERIRE (index.js)-> ", data);
         await middleware.upload(data);
-        middleware.load().then((r) => {tableComp.setData(r); tableComp.render()});
-        console.log("DATI INSERITI");
+        middleware.load().then((r) => {tableComp.setData(r); tableComp.render(); console.log("DATI INSERITI SULLA TABELLA  -> ", r);});
+        
     });
 
     pubsub.subscribe("cambia-stato", (index) =>{
         form.setTipologiaCur(index);
         tableComp.setTipologiaCur(index);
+        tableComp.render();
+        console.log("TIPOLOGIA CAMBIATA");
     })
 
     const handleSubmit = async (event) => {
