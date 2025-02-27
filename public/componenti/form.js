@@ -1,4 +1,4 @@
-export const createForm = (parentElementIn, pubsub) => {
+export const createForm = (parentElementIn, pubsubm, middleware) => {
     let dati = [];
     let types = [];
     let callback = null;
@@ -23,7 +23,7 @@ export const createForm = (parentElementIn, pubsub) => {
                 `<div>Nome<br/><input id="nome" type="text" class="form-label form-control"/></div>`+
                 `<div id="outputform"></div>`
             //lettura valori inseriti
-            document.querySelector("#Prenota").onclick = () => {
+            document.querySelector("#Prenota").onclick = async () => {
                 const data = document.querySelector("#data").value;
                 const ora = document.querySelector("#ora").value;
                 const nome = document.querySelector("#nome").value;
@@ -40,7 +40,9 @@ export const createForm = (parentElementIn, pubsub) => {
                         "idType": (tipologiaCur + 1)                     
                     }
                     
-                    pubsub.publish("push-dato", dizTemp);
+                    await middleware.upload(dizTemp); 
+                        
+                    //pubsub.publish("push-dato", dizTemp);
                 }
                 document.querySelector("#data").value="";
                 document.querySelector("#ora").value="";

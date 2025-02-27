@@ -42,14 +42,14 @@ const database = {
       `);
     },
 
-   insert: (book) => {
+   insert: async (book) => {
       //INSERIMENTO ELEMENTO NELLA TABELLA
       let sql = `
-         INSERT INTO booking(idType, date, hour, name)
+         INSERT INTO booking (idType, date, hour, name)
          VALUES ('${book.idType}', '${book.date}', '${book.hour}', '${book.name}')
            `;
       console.log("SQL INSERIMENTO-> ", book);
-      return executeQuery(sql)
+      return await executeQuery(sql)
     },
 
    select: () => {

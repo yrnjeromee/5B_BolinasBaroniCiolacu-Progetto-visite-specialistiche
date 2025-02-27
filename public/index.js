@@ -37,12 +37,12 @@ const createMiddleware = () => {
             console.log("UPLOAD     ",inputFile)
             const fetchOptions = {
                 method: "POST",
-                Headers: {
+                headers: {
                     "content-Type": "application/json"
                 },
-                body: JSON.stringify({"inputFile": inputFile}),
+                body: JSON.stringify({booking: inputFile}),
             };
-            console.log("INPUT FILE -> ", inputFile);
+            console.log("INPUT FILE (Fetch Options)-> ", fetchOptions);
         try {
             const res = await fetch("/upload", fetchOptions);
             const data = await res.json();
@@ -59,7 +59,7 @@ const createMiddleware = () => {
 fetch("./conf.json").then(r => r.json()).then(conf => {
     const pubsub = generatePubSub();
     const middleware = createMiddleware();
-    const form = createForm(formElement, pubsub);
+    const form = createForm(formElement, pubsub, middleware);
     const tableComp = tableComponent(tabella, pubsub);
     const navBarComp = NavBarComponent(navbar, pubsub);
     
