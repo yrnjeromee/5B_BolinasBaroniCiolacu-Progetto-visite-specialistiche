@@ -13,6 +13,7 @@ import { NavBarComponent } from './componenti/navbar.js';
 import { createForm } from './componenti/form.js';
 
 
+
 const createMiddleware = () => {
     return {
         load: async () => {
@@ -33,10 +34,14 @@ const createMiddleware = () => {
             return json
         },
         upload: async (inputFile) => {
+            console.log("UPLOAD     ",inputFile)
             const fetchOptions = {
-                method: "post",
-                body: inputFile
-        };
+                method: "POST",
+                Headers: {
+                    "content-Type": "application/json"
+                },
+                body: JSON.stringify({"inputFile": inputFile}),
+            };
             console.log("INPUT FILE -> ", inputFile);
         try {
             const res = await fetch("/upload", fetchOptions);
@@ -56,11 +61,11 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     const middleware = createMiddleware();
     const form = createForm(formElement, pubsub);
     const tableComp = tableComponent(tabella, pubsub);
-    const navBarComp = NavBarComponent(navbar);
+    const navBarComp = NavBarComponent(navbar, pubsub);
     
     
 
-    middleware.load().then((r) => {tableComp.setData(r); tableComp.render()});
+    middleware.load().then((r) => {tableComp.setData(r); tableComp.render(); console.log("DATI INIZIALI CARICATI -> ", r)});
     middleware.loadTips().then((r) => {
         //CARICAMENTO TIPOLOGIE
         form.setType(r); 
@@ -96,9 +101,15 @@ fetch("./conf.json").then(r => r.json()).then(conf => {
     })
 
     pubsub.subscribe("push-dato", async (data) => {
+        console.log("DATI DA INSERIRE (index.js)-> ", data);
         await middleware.upload(data);
         middleware.load().then((r) => {tableComp.setData(r); tableComp.render()});
         console.log("DATI INSERITI");
+    });
+
+    pubsub.subscribe("cambia-stato", (index) =>{
+        form.setTipologiaCur(index);
+        tableComp.setTipologiaCur(index);
     })
 
     const handleSubmit = async (event) => {

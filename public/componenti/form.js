@@ -35,7 +35,7 @@ export const createForm = (parentElementIn, pubsub) => {
                     // AGGIUNTA DELLA DATA NEL DIZIONARIO
                     let dizTemp = {
                         "date": data,
-                        "hour": ora,
+                        "hour": parseInt(ora),
                         "name": nome,
                         "idType": (tipologiaCur + 1)                     
                     }

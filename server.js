@@ -15,9 +15,12 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 
 app.post("/upload", async (req, res) => {
     //WEB SERVICE CHE PERMETTE DI AGGIUNGERE LE PRENOTAZIONI
-    await database.insert(req);
+    //console.log("UPLOAD REQ.BODY-> ", req);
+    console.log(req.body);
+    const booking = req.body;
+    console.log("AGGIUNTO -> ", booking)
+    await database.insert(booking);
     res.json({result: "ok"});
-    console.log("AGGIUNTO -> ", req.name)
 });
 
 app.get('/get', async (req, res) => {

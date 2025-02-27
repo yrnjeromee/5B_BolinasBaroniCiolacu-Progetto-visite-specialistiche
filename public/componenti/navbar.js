@@ -1,4 +1,4 @@
-export const NavBarComponent = (parentElementIn) => {
+export const NavBarComponent = (parentElementIn, pubsub) => {
     let parentElement = parentElementIn;
     let types = [];
  
@@ -26,9 +26,14 @@ export const NavBarComponent = (parentElementIn) => {
 
             document.querySelectorAll(".btn-check").forEach((radio) => {
                 radio.onclick = () => {
-                    form.setType(radio.value)//valore della scelta
-                    table1.setTipo(radio.value);
-                    table1.render()
+                    // QUANDO CLICCO SU UNA TIPOLOGIA DI VISITA
+                    let c;
+                    for (let i = 0; i < types.length; i++) {
+                      if (types[i].name === radio.value) {
+                        c = i;
+                      }
+                    }
+                    pubsub.publish("cambia-stato", c);
                 };
             });
 

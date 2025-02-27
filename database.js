@@ -48,6 +48,7 @@ const database = {
          INSERT INTO booking(idType, date, hour, name)
          VALUES ('${book.idType}', '${book.date}', '${book.hour}', '${book.name}')
            `;
+      console.log("SQL INSERIMENTO-> ", book);
       return executeQuery(sql)
     },
 
