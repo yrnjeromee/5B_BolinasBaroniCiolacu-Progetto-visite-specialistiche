@@ -34,7 +34,7 @@ const createMiddleware = () => {
             return json
         },
         upload: async (inputFile) => {
-            console.log("UPLOAD     ",inputFile)
+            console.log("UPLOAD     ", inputFile)
             const fetchOptions = {
                 method: "POST",
                 headers: {

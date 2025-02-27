@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 //const multer  = require('multer');
 const database = require('./database.js');
-
+app.use(express.json());
 
 database.createTableType();
 database.createTableBooking();
@@ -16,8 +16,10 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 app.post("/upload", async (req, res) => {
     //WEB SERVICE CHE PERMETTE DI AGGIUNGERE LE PRENOTAZIONI
     //console.log("UPLOAD REQ.BODY-> ", req);
-    console.log("REQQQQQQ - -   ", req.body);
+    //console.log("REQ PARSED  -   ", JSON.parse(req.body))
+    
     const booking = req.body.booking;
+    console.log("REQQQQQQ - -   ", booking);
     try {
         await database.insert(booking);
         console.log("AGGIUNTO -> ", booking)
